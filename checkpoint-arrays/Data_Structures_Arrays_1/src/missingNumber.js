@@ -18,13 +18,17 @@ function missingNumberBruteForce(numbers) {
  * Use an iterative  strategy for finding the missing number in an array
  */
 function missingNumberSum(numbers) {
-  const n = numbers.length + 1;
-  let numbersTotal = (n * (n + 1)) / 2;
+  let n = numbers.length + 1;
+  let missingNumber = (n * (n + 1)) / 2;
 
   numbers.forEach((number) => {
-    total -= number;
+    missingNumber -= number;
+    console.log("checking for", number, ": found");
   });
-  return total;
+
+  console.log("checking for", missingNumber, ": not found");
+  console.log("missing number:", missingNumber);
+  return missingNumber;
 }
 
 module.exports = { missingNumberBruteForce, missingNumberSum };
