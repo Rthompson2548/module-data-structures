@@ -1,6 +1,9 @@
 /**
  * Node is used to store values in a LinkedList
+ *
+ * syntax: head => node => node => ... => null
  */
+
 class Node {
   constructor(value, next = null) {
     this.value = value;
@@ -24,14 +27,13 @@ class LinkedList {
    */
 
   get length() {
-    let result = 0;
+    let nodeCount = 0;
     let node = this.head;
-
     while (node) {
-      result++;
+      counter++;
       node = node.next;
     }
-    return result;
+    return nodeCount;
   }
 
   /**
@@ -41,10 +43,21 @@ class LinkedList {
    *  function that returns true if the current node matches the search criteria.
    *
    * @returns {*|null}
-   *  the first node where `isMatch(node, index) === true` or null if no match is found.
+   *  the first node where `isMatch(node, index) === true`
+   * or null if no match is found.
    */
   find(isMatch) {
-    return this.findWithPrevious(isMatch)[0];
+    let node = this.head;
+    let index = 0;
+
+    while (node) {
+      if (isMatch(node, index)) {
+        return node;
+      }
+      index++;
+      node = node.next;
+    }
+    return null;
   }
 
   /**
@@ -63,17 +76,28 @@ class LinkedList {
    *  if list is not empty and no matching element is found.
    */
   insert(value, isMatch = (node, index) => index === this.length - 1) {
-    if (this.head) {
-      const previousNode = this.find(isMatch);
+    console.log("checking for nodes in linked list...");
 
+    if (this.head) {
+      console.log("nodes were found!");
+
+      console.log("checking for requested node");
+      const previousNode = this.find(isMatch(value));
       if (!previousNode) {
-        throw new Error("No match found.");
+        console.log("the node you requested does not exist");
+        throw Error("requested node not found");
       }
+      console.log(`previous node found: ${previousNode}`);
 
       previousNode.next = new Node(value, previousNode.next);
+      console.log(`inserting new node after requested node...`);
+      console.log(`insertion completed: ${previousNode.next}`);
     } else {
+      console.log(`no nodes present in linked list: setting node as head...`);
       this.insertAtHead(value);
+      console.log(`linked list: ${this.head}`);
     }
+    console.log(`this: ${this}`);
     return this;
   }
 
@@ -87,34 +111,7 @@ class LinkedList {
    */
 
   insertAtHead(value) {
-    //TODO This is a new function that you will need to implement.
-    this.head = new Node(value, this.head);
-    return this;
-  }
-
-  /**
-   * Find a node, and its previous node, in the linked list.
-   * @param isMatch
-   *  Function that returns `true` if the current node matches the search criteria.
-   *
-   * @returns {[Node|null, Node|null]}
-   *  The first element is the node where `isMatch(node, index) === true` or `null` if no match is found.
-   *  The second element is the previous node, or `null` if no match is found.
-   *  This second element is also `null` if `this.head` is the matched node.
-   */
-  findWithPrevious(isMatch) {
-    let index = 0;
-    let previous = null;
-    let node = this.head;
-    while (node) {
-      if (isMatch(node, index, this)) {
-        return [node, previous];
-      }
-      index++;
-      previous = node;
-      node = node.next;
-    }
-    return [null, null];
+    // This is a new function that you will need to implement.
   }
 
   /**
@@ -126,20 +123,7 @@ class LinkedList {
    * @returns {LinkedList}
    *  this linked list so methods can be chained.
    */
-  remove(isMatch) {
-    const [matchedNode, previousNode] = this.findWithPrevious(isMatch);
-
-    if (!matchedNode) {
-      return null;
-    }
-
-    if (this.head === matchedNode) {
-      this.head = this.head.next;
-    } else {
-      previousNode.next = matchedNode.next;
-    }
-    return matchedNode.value;
-  }
+  remove(isMatch) {}
 }
 
 module.exports = LinkedList;
