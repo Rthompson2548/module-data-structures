@@ -32,6 +32,7 @@ class LinkedList {
       node = node.next;
     }
     return result;
+    // console.log(getLength());
   }
 
   /**
