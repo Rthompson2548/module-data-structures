@@ -1,55 +1,85 @@
 /**
- * write a function that accepts two sets and returns
- * the union of the two sets.
+ * return the union of two sets
  */
 function union(s1, s2) {
-  // creates a set that include the values from s1
-  const union = new Set(s1);
+  /**
+   * setting parameter values and an expected result
+   * to check work as i go
+   */
+  let s1 = new Set([1, 2, 3, 4, 5, 6]);
+  let s2 = new Set([5, 7, 8, 9, 10]);
 
-  // iterates through values of s2 and appends them to 'union' if not already included
-  for (const value of s2) {
-    union.add(value);
-  }
+  /** this isn't necessary, but i also converted
+   * each set into an array and logged it out for
+   * a cleaner look
+   */
+  let firstSet = Array.from(s1);
+  let secondSet = Array.from(s2);
 
-  return union;
-  console.log("union of s1 and s2:", union);
-}
+  console.log(`s1: ${firstSet}`);
+  console.log(`s2: ${secondSet}`);
 
-/**
- * other possible solution for union using spread operator
- */
-function union(s1, s2) {
-  console.log("s1:", s1, "s2:", s2);
+  let setOne = [...s1];
 
-  // creates a set using spread operator with all unique values from both sets
-  const union = new Set([...s1, ...s2]);
-  return union;
-  console.log("union:", union);
+  console.log(`set one: ${setOne}`);
+  let setTwo = [...s2];
+
+  console.log(`set two: ${setTwo}`);
+  let combinedSets = [...setOne, ...setTwo];
+
+  let unionSet = new Set(combinedSets);
+
+  console.log(`union of s1 and s2: ${unionSet}`);
+  return unionSet;
 }
 
 /**
  * return the intersection of two sets
- * the intersection of two sets are the elements that belong to both sets.
  */
+
 function intersect(s1, s2) {
-  // creates set using s1 vals, and uses filter() method to only
-  // add the vals also included in s2
-  let intersection = new Set([...s1].filter((val) => s2.has(val)));
-  console.log("intersection:", intersection);
+  let s1 = new Set([1, 2, 3, 4, 5, 6]);
+  let s2 = new Set([5, 2, 8, 4, 10]);
+
+  let s1Array = [...s1];
+  let s2Array = [...s2];
+  let expectedIntersection = [2, 5, 4];
+
+  console.log(`set 1: ${s1Array}`);
+  console.log(`set 2: ${s2Array}`);
+  console.log(`expected intersection of sets: ${expectedIntersection}`);
+
+  let intersection = new Set();
+
+  s1.forEach((s) => {
+    if (s2.has(s)) {
+      intersection.add(s);
+    }
+  });
+  console.log(`intersection of sets: ${[...intersection]}`);
   return intersection;
 }
 
 /**
  * return the difference of two sets
- * the difference between two sets a and b are
- * all the elements that belong to a but not b
  */
 function difference(s1, s2) {
-  // creates a set that filters through s2 and only adds values
-  // that are not included in s2
-  let difference = new Set([...s1].filter((val) => !s2.has(val)));
-  console.log("difference :", difference);
-  return difference;
+  let s1 = new Set([1, 2, 3, 4, 5, 6]);
+  let s2 = new Set([5, 2, 8, 4, 10]);
+  let expectedDifference = [1, 3, 6];
+
+  console.log(`set 1: ${[...s1]}`);
+  console.log(`set 2: ${[...s2]}`);
+  console.log(`expected difference: ${expectedDifference}`);
+
+  let actualDifference = new Set();
+  s1.forEach((s) => {
+    if (!s2.has(s)) {
+      actualDifference.add(s);
+    }
+  });
+  console.log(`actual difference between sets: ${[...actualDifference]}`);
+  return actualDifference;
 }
 
 module.exports = { union, intersect, difference };
